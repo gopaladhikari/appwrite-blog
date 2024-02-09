@@ -4,11 +4,11 @@ import type { Register } from "../schemas/registerSchema";
 import type { Login } from "../schemas/loginSchema";
 
 export class AuthService {
-  client = new Client();
+  client;
   account;
 
   constructor() {
-    this.client
+    this.client = new Client()
       .setEndpoint(conf.appwriteBucketId)
       .setProject(conf.appwriteProjectId);
     this.account = new Account(this.client);
@@ -26,7 +26,7 @@ export class AuthService {
       return this.login({ email, password });
     } catch (error) {
       const message = (error as Error).message;
-      throw new Error(`Appwrite service :: register :: Error :${message}`);
+      throw new Error(`Appwrite service :: register :: Error : ${message}`);
     }
   }
 
@@ -35,7 +35,7 @@ export class AuthService {
       return await this.account.createEmailSession(email, password);
     } catch (error) {
       const message = (error as Error).message;
-      throw new Error(`Appwrite service :: login :: Error :${message}`);
+      throw new Error(`Appwrite service :: login :: Error : ${message}`);
     }
   }
 
@@ -44,7 +44,7 @@ export class AuthService {
       return await this.account.deleteSessions();
     } catch (error) {
       const message = (error as Error).message;
-      throw new Error(`Appwrite service :: logout :: Error :${message}`);
+      throw new Error(`Appwrite service :: logout :: Error : ${message}`);
     }
   }
 
@@ -54,7 +54,7 @@ export class AuthService {
     } catch (error) {
       const message = (error as Error).message;
       throw new Error(
-        `Appwrite service :: getCurrentUser :: Error :${message}`
+        `Appwrite service :: getCurrentUser :: Error : ${message}`
       );
     }
   }
