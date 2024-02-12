@@ -3,13 +3,13 @@ import { conf } from "../conf";
 import type { Register } from "../schemas/registerSchema";
 import type { Login } from "../schemas/loginSchema";
 
-export class AuthService {
-  client;
+class AuthService {
+  client = new Client();
   account;
 
   constructor() {
-    this.client = new Client()
-      .setEndpoint(conf.appwriteBucketId)
+    this.client
+      .setEndpoint(conf.appwriteUrl)
       .setProject(conf.appwriteProjectId);
     this.account = new Account(this.client);
   }
@@ -41,7 +41,7 @@ export class AuthService {
 
   async logout() {
     try {
-      return await this.account.deleteSessions();
+      return { data: await this.account.deleteSessions(), sucess: true };
     } catch (error) {
       const message = (error as Error).message;
       throw new Error(`Appwrite service :: logout :: Error : ${message}`);
