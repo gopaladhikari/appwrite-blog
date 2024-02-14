@@ -1,24 +1,37 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Login, loginSchema } from "../schemas/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { TLogin, loginSchema } from "../schemas/loginSchema";
+import { authService } from "../appwrite/auth";
+import { login } from "../redux/feature/authSlice";
+import { useAppDispatch, useAppSelector } from "../redux/store";
 
 export default function Login() {
+  const navigate = useNavigate();
+
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
+
+  if (isAuthenticated) navigate("/");
+  const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<Login>({
+    formState: { errors, isSubmitting },
+  } = useForm<TLogin>({
     resolver: zodResolver(loginSchema),
   });
 
-  const login: SubmitHandler<Login> = async (data) => {};
+  const handleClick: SubmitHandler<TLogin> = async (data) => {
+    await authService.login(data);
+    const user = await authService.getCurrentUser();
+    dispatch(login({ user }));
+    navigate("/profile");
+  };
 
   return (
     <main className="mt-8 sm:mt-16 lg:mt-24">
-      <div
-        className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}
-      >
+      <div className="mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10">
         <div className="mb-2 flex justify-center">
           <span className="inline-block w-full max-w-[100px]">Blog</span>
         </div>
@@ -35,7 +48,7 @@ export default function Login() {
           </Link>
         </p>
         {/* {error && <p className="text-red-600 mt-8 text-center">{error}</p>} */}
-        <form onSubmit={handleSubmit(login)} className="mt-8">
+        <form onSubmit={handleSubmit(handleClick)} className="mt-8">
           <div className="space-y-5">
             <input
               placeholder="Enter your email"
@@ -56,10 +69,11 @@ export default function Login() {
               <p className="text-red-700"> {errors.password.message} </p>
             )}
             <button
+              disabled={isSubmitting}
               type="submit"
               className="px-4 py-2 rounded-lg bg-blue-600 text-white w-full"
             >
-              Sign in
+              {isSubmitting ? "Signing In..." : "Sign In"}
             </button>
           </div>
         </form>

@@ -17,8 +17,8 @@ export default function Navbar() {
 
   const navItems = [
     {
-      name: "Home",
-      slug: "/",
+      name: "Blog",
+      slug: "/blog",
       active: true,
     },
     {
@@ -48,7 +48,7 @@ export default function Navbar() {
       <Container>
         <nav className="flex">
           <div className="mr-4">
-            <Link to="/">Blog</Link>
+            <Link to="/">Home</Link>
           </div>
           <ul className="flex ml-auto">
             {navItems.map((item) =>

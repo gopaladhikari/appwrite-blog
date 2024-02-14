@@ -3,6 +3,7 @@ import Container from "../components/Container";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Register, registerSchema } from "../schemas/registerSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { authService } from "../appwrite/auth";
 
 export default function Register() {
   const {
@@ -13,7 +14,10 @@ export default function Register() {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit: SubmitHandler<Register> = (data) => {};
+  const onSubmit: SubmitHandler<Register> = async (data) => {
+    const res = await authService.register(data);
+    console.log(res);
+  };
 
   return (
     <main>

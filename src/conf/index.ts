@@ -4,4 +4,5 @@ export const conf = {
   appwriteDatabaseId: String(import.meta.env.VITE_APPWRITE_DB_ID),
   appwriteCollectionId: String(import.meta.env.VITE_APPWRITE_COLLECTION_ID),
   appwriteBucketId: String(import.meta.env.VITE_APPWRITE_BUCKET_ID),
+  appwriteTinyMCEApiKey: String(import.meta.env.VITE_TINY_API_KEY),
 };

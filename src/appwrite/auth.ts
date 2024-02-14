@@ -1,10 +1,11 @@
 import { Client, Account, ID } from "appwrite";
 import { conf } from "../conf";
 import type { Register } from "../schemas/registerSchema";
-import type { Login } from "../schemas/loginSchema";
+import type { TLogin } from "../schemas/loginSchema";
 
 class AuthService {
   client = new Client();
+
   account;
 
   constructor() {
@@ -23,18 +24,18 @@ class AuthService {
         name
       );
       if (!user) throw new Error("User not created");
-      return this.login({ email, password });
+      return await this.login({ email, password });
     } catch (error) {
-      const message = (error as Error).message;
+      const { message } = error as Error;
       throw new Error(`Appwrite service :: register :: Error : ${message}`);
     }
   }
 
-  async login({ email, password }: Login) {
+  async login({ email, password }: TLogin) {
     try {
       return await this.account.createEmailSession(email, password);
     } catch (error) {
-      const message = (error as Error).message;
+      const { message } = error as Error;
       throw new Error(`Appwrite service :: login :: Error : ${message}`);
     }
   }
@@ -43,7 +44,7 @@ class AuthService {
     try {
       return { data: await this.account.deleteSessions(), sucess: true };
     } catch (error) {
-      const message = (error as Error).message;
+      const { message } = error as Error;
       throw new Error(`Appwrite service :: logout :: Error : ${message}`);
     }
   }
@@ -52,7 +53,7 @@ class AuthService {
     try {
       return await this.account.get();
     } catch (error) {
-      const message = (error as Error).message;
+      const { message } = error as Error;
       throw new Error(
         `Appwrite service :: getCurrentUser :: Error : ${message}`
       );

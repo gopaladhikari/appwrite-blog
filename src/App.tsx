@@ -1,12 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Layout from "./pages/Layout";
-import { useEffect } from "react";
 import { useAppDispatch } from "./redux/store";
 import { authService } from "./appwrite/auth";
 import { login, logout } from "./redux/feature/authSlice";
+import Profile from "./pages/Profile";
+import Blog from "./pages/Blog";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -28,6 +31,10 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path="profile" element={<Profile />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

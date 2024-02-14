@@ -1,7 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type Payload = {
-  user: unknown;
+  user: {
+    name: string;
+    email: string;
+  };
 };
 
 type InitialState = Payload & {
@@ -10,7 +13,10 @@ type InitialState = Payload & {
 
 const initialState: InitialState = {
   isAuthenticated: false,
-  user: null,
+  user: {
+    name: "",
+    email: "",
+  },
 };
 
 const authSlice = createSlice({
