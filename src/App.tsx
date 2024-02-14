@@ -10,6 +10,8 @@ import { login, logout } from "./redux/feature/authSlice";
 import Profile from "./pages/Profile";
 import Blog from "./pages/Blog";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import AddPost from "./pages/AddPost";
+import AllPost from "./pages/AllPost";
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -34,6 +36,8 @@ export default function App() {
           <Route path="/blog" element={<Blog />} />
           <Route element={<ProtectedRoutes />}>
             <Route path="profile" element={<Profile />} />
+            <Route path="add-post" element={<AddPost />} />
+            <Route path="all-posts" element={<AllPost />} />
           </Route>
         </Route>
       </Routes>

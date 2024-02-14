@@ -3,7 +3,7 @@ import { Control, Controller } from "react-hook-form";
 import { conf } from "../conf";
 
 type Props = {
-  control?: Control;
+  control: Control;
 };
 
 export default function PostEditor({ control }: Props) {

@@ -1,5 +1,5 @@
 import Container from "../components/Container";
-import PostForm from "../components/PostForm";
+import PostForm from "./AddPost";
 
 export default function Profile() {
   return (
